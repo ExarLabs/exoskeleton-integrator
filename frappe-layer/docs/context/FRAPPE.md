@@ -9,7 +9,8 @@ any Frappe site, so onboarding does not have to rediscover it.
 | File | Holds | Read it when |
 |---|---|---|
 | `FRAPPE.md` | This index, triage, rigor defaults | onboarding, any session start |
-| `GOTCHAS-frappe.md` | Verified traps with source lines (permissions, Server Scripts, REST writes, tests) | planning, implementing, reviewing |
+| `GOTCHAS-frappe.md` | Verified traps with source lines (permissions, Server Scripts, REST reads and writes, tests) | planning, implementing, reviewing |
+| `GOTCHAS-frappe-crm.md` | Traps of the Frappe CRM app (deal status and `closed_date`, the "Won" name, Lost reason, forecasting) | any change that reads or writes `CRM Deal` or its statuses |
 | `SAFE_EXEC-frappe.md` | Generated list of what a Server Script can call, per version | writing or reviewing a Server Script |
 | `TESTING-frappe.md` | Seeing a test fail on a bench; what to test on Frappe | implementing, debugging |
 | `REVIEW-frappe.md` | Where the reviewer looks on Frappe changes | reviewing |

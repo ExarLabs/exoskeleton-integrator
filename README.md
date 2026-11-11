@@ -29,7 +29,8 @@ activates.
 
 | Part | What it does |
 |---|---|
-| [`frappe-layer/docs/context/GOTCHAS-frappe.md`](frappe-layer/docs/context/GOTCHAS-frappe.md) | Nine traps from live sites (Custom DocPerm, the Server Script sandbox, REST writes, permission query conditions, test classes), each with source lines at pinned v15 and v16 commits |
+| [`frappe-layer/docs/context/GOTCHAS-frappe.md`](frappe-layer/docs/context/GOTCHAS-frappe.md) | Ten traps from live sites (Custom DocPerm, the Server Script sandbox, REST writes, child table lists, permission query conditions, test classes), each with source lines at pinned v15 and v16 commits |
+| [`frappe-layer/docs/context/GOTCHAS-frappe-crm.md`](frappe-layer/docs/context/GOTCHAS-frappe-crm.md) | Traps of the Frappe CRM app: a Won-type status overwrites the signing date, the "Won" name is hard-coded, Lost needs a reason, forecasting makes fields mandatory; pinned to a `frappe/crm` commit |
 | [`frappe-layer/docs/context/SAFE_EXEC-frappe.md`](frappe-layer/docs/context/SAFE_EXEC-frappe.md) | What a Server Script can call on v15 and v16, **generated** from `frappe/utils/safe_exec.py`, not written by hand |
 | [`frappe-layer/docs/context/TESTING-frappe.md`](frappe-layer/docs/context/TESTING-frappe.md) | Seeing a test fail on a bench; testing permissions as a real role; refusals, not only success |
 | [`frappe-layer/docs/context/REVIEW-frappe.md`](frappe-layer/docs/context/REVIEW-frappe.md) | Where the reviewer looks on a Frappe change, most consequential first |

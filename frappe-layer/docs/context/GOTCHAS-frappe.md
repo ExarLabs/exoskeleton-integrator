@@ -148,3 +148,35 @@ classes in `frappe/tests/classes/`). The v16 classes do not exist on v15.
 
 **Do this.** Check the bench version in triage before writing a test, and see
 [`TESTING-frappe.md`](TESTING-frappe.md).
+
+## 10. A child table list needs its parent DocType
+
+**What happens.** Listing a child table (`Dynamic Link`, `Has Role`, any `istable` DocType)
+without saying whose child it is fails with `PermissionError` (HTTP 403), even for a user who
+can read every parent. The list query checks read permission with
+`parent_doctype=parent_doctype or self.doctype`, so with no parent it asks whether the child
+is its own parent
+([v15 db_query.py#L904-L913](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/model/db_query.py#L904-L912),
+[v16 #L630-L638](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/model/db_query.py#L630-L639)),
+and the child permission check refuses that
+([v15 permissions.py#L800-L820](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/permissions.py#L800-L819),
+[v16 #L839-L860](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/permissions.py#L839-L861)).
+
+The fix is one parameter, `parent=<Parent DocType>`. `frappe.client.get_list` takes it
+([v15 client.py#L28-L55](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/client.py#L28-L55),
+[v16 #L27-L52](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/client.py#L27-L52)),
+and `GET /api/resource/<child>` passes its query string straight to it
+([v15 api/v1.py#L31](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/api/v1.py#L31),
+[v16 #L32](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/api/v1.py#L32)),
+so `?parent=Contact` works there too. Checked on a v16.26.3 site with an API user (2026-11-11):
+`/api/resource/Dynamic Link` gave 403, the same call with `parent=Contact` gave 200, and
+`parent=User` (not a parent of `Dynamic Link`) gave 403 again.
+
+`parent` names whose permission is checked; it is not documented as a row filter. On that
+site `parent=Address` returned only rows with `parenttype` Address, but the pinned sources
+do not show one clear place that guarantees it.
+
+**Do this.** Pass `parent=<Parent DocType>` and, when the child table belongs to several
+parents, also filter `parenttype` yourself
+(`filters=[["parenttype", "=", "Contact"]]`). Inside Python on the bench, `frappe.get_all`
+skips permissions and needs neither.
