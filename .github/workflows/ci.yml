@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install pytest
+      - run: python -m pytest -q
+      - name: Generated namespace is up to date with the pinned fixtures
+        run: |
+          python scripts/safe_exec_names.py \
+            --source tests/fixtures/safe_exec_version-15.py --label version-15 \
+            --source tests/fixtures/safe_exec_version-16.py --label version-16 > /tmp/ns.md
+          grep -q "| \`get_roles\` | \*\*missing\*\* | \*\*missing\*\* |" /tmp/ns.md
+      - name: Installer never overwrites
+        run: |
+          mkdir -p /tmp/app && echo mine > /tmp/app/AGENTS.md
+          ./install.sh /tmp/app
+          test "$(cat /tmp/app/AGENTS.md)" = "mine"
+          test -f /tmp/app/docs/context/GOTCHAS-frappe.md

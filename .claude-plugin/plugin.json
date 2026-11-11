@@ -1,0 +1,12 @@
+{
+  "name": "exoskeleton-integrator",
+  "version": "0.1.0",
+  "description": "Frappe bench context, migrate reminders and a human confirmation before destructive or live-site commands. Hooks of Exoskeleton Integrator, built on the AI Dev Exoskeleton.",
+  "author": {
+    "name": "ExarLabs"
+  },
+  "homepage": "https://github.com/ExarLabs/exoskeleton-integrator",
+  "repository": "https://github.com/ExarLabs/exoskeleton-integrator",
+  "license": "MIT",
+  "keywords": ["frappe", "erpnext", "ai-coding", "claude-code", "hooks", "exoskeleton"]
+}

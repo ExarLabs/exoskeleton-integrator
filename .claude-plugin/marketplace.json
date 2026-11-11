@@ -1,0 +1,14 @@
+{
+  "name": "exarlabs",
+  "owner": {
+    "name": "ExarLabs"
+  },
+  "plugins": [
+    {
+      "name": "exoskeleton-integrator",
+      "source": "./",
+      "description": "Frappe bench context, migrate reminders and a human confirmation before destructive or live-site commands.",
+      "version": "0.1.0"
+    }
+  ]
+}
