@@ -35,6 +35,22 @@ Both print versions, the Server Scripts on the site, and which DocTypes have `Cu
 rows. The console version also prints installed apps, developer mode, `allow_tests` and
 whether Server Scripts are enabled; REST cannot see those.
 
+## Intent, at build-context
+
+Before planning, write the intent in at most five numbered lines, each a behaviour a tester can
+check, and at least one line that starts with **Must not:** (what the change leaves alone or
+must never show). The owner confirms it; the numbers stay stable so tests and findings can cite
+them (`intent #3`). It goes into `## Acceptance` of `PLAN.md`. Frappe's `ship-it` works the same
+way ([steps/intent.md](https://github.com/frappe/skills/blob/5dc2f984081f6d8e23559af03b0e7c2799245d79/skills/ship-it/steps/intent.md)).
+
+## A bug report
+
+A report is not a specification: its guesses send you where the reporter looked. Have a
+separate agent extract only the facts (symptom, expected, exact reproduction, verbatim errors,
+environment, gaps), reproduce before fixing, then follow the Exoskeleton debugger. Frappe's
+[`fix-issue`](https://github.com/frappe/skills/blob/5dc2f984081f6d8e23559af03b0e7c2799245d79/skills/fix-issue/SKILL.md)
+does this; install it from there if you prefer it.
+
 ## Two checks: ours every time, Frappe's audit before a big release
 
 They look at different things, so neither replaces the other.

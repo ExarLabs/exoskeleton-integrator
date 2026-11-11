@@ -41,6 +41,29 @@ bench --site test.localhost run-tests --app <app> --module <app>.<module>.doctyp
 - **Migrations.** A patch runs once per site. Test it on a copy of real data shape, and make it
   safe to run twice.
 
+## The agent's live run, before the human's manual test
+
+The manual test stays the human's gate. Before handing over, the agent drives each intent line
+itself on the running site (browser for UI, the command for an API), on the test site that
+holds a copy of the live data, not on the `run-tests` site:
+
+- one scenario per intent line, named after it (`intent #2`);
+- evidence the human can see without running anything, saved in the task folder: a screenshot
+  for a state, a short video (or a screenshot per step) for drag and drop or a multi-step flow,
+  the command and the relevant output for an API;
+- **live** only when driven against the running site in this run. A unit test, a mock or
+  reading the code is not live. "Not tested, because ..." beats a guessed pass.
+
+The human then tests with the evidence in hand. Frappe's `ship-it` has the same step
+([steps/test.md](https://github.com/frappe/skills/blob/5dc2f984081f6d8e23559af03b0e7c2799245d79/skills/ship-it/steps/test.md)).
+
+## Work in the bench's own checkout
+
+The bench loads an app from `apps/<app>`. A `git worktree` or a second clone elsewhere is
+invisible to it, so a change made there is never what the site runs (Frappe's `ship-it` says
+the same). Edit, test and commit in `apps/<app>`, and say in `CONTEXT.md` which checkout the
+bench runs.
+
 ## When there is no test suite
 
 Customer-site work often has none: a Server Script, a Custom Field, a permission change made

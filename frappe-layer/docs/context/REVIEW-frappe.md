@@ -56,6 +56,13 @@ For a finding about access or data, the Evidence section names the command or te
 showed it (a `run-tests` line, a REST call as a restricted user, a triage output), not only the
 diff line.
 
+## Commits after the review
+
+Start `REVIEW.md` with the commit the review covered (`Reviewed: <sha>`). Fixes, test changes
+and docs that land after it are reviewed again, `<sha>..HEAD` only, by a fresh reviewer, and the
+line moves. A resumed session reads that line to know what is still unreviewed. The fixer is
+never the reviewer who raised the finding. (Frappe's `ship-it` keeps the same marker in the PR.)
+
 ## Frappe's own audit rules cited here
 
 Frappe publishes a full app audit in [`frappe/skills`](https://github.com/frappe/skills/tree/5dc2f984081f6d8e23559af03b0e7c2799245d79/skills/deep-app-audit)

@@ -19,6 +19,12 @@ Lessons from a real Frappe v16 + Frappe CRM build (plan: `docs/tasks/20261111-fr
     than fixtures (audit rules A08, A09, A18, B25);
   - `FRAPPE.md`: "Two checks", our triage on every change and Frappe's audit before a big
     release.
+- Learned from Frappe's `ship-it` and `fix-issue` (same commit, cited, not copied):
+  - `FRAPPE.md`: intent in at most five numbered lines with a **Must not:** line, confirmed by
+    the owner; bug reports go through a fact-only extract and a reproduction first;
+  - `TESTING-frappe.md`: the agent's live run with evidence per intent line before the human's
+    manual test; work in the bench's own checkout, not a worktree;
+  - `REVIEW-frappe.md`: a `Reviewed: <sha>` line, and commits after it get a fresh review.
 
 ## 0.1.0 (2026-11-11)
 
