@@ -35,6 +35,18 @@ def test_every_frappe_link_in_the_layer_is_pinned():
     assert not bad, f"links to a branch or short sha instead of a commit: {bad}"
 
 
+def test_every_gotcha_says_how_to_find_it():
+    """Each numbered trap tells the agent how to find it in its own code or site."""
+    missing = []
+    for path in CONTEXT.glob("GOTCHAS-*.md"):
+        sections = re.split(r"^## (?=\d+\.)", path.read_text(encoding="utf-8"), flags=re.M)[1:]
+        assert sections, f"{path.name}: no numbered traps"
+        for section in sections:
+            if "**Find it.**" not in section:
+                missing.append(f"{path.name}: {section.splitlines()[0]}")
+    assert not missing, f"traps without a 'Find it.' line: {missing}"
+
+
 def test_every_context_file_is_in_the_frappe_index():
     index = (CONTEXT / "FRAPPE.md").read_text(encoding="utf-8")
     missing = [

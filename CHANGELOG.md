@@ -11,6 +11,14 @@ Lessons from a real Frappe v16 + Frappe CRM build (plan: `docs/tasks/20261111-fr
   (`ead04d4`).
 - `tests/test_docs_pins.py`: every `github.com/frappe` link in the layer points to a full
   commit, and every context file is listed in `FRAPPE.md`.
+- Learned from Frappe's own `deep-app-audit` (`frappe/skills` `5dc2f98`, cited, not copied):
+  - every trap gains a **Find it.** line, and a test keeps it so;
+  - traps 11 (DocType Event scripts skip install and migrate) and 12 (an API script can take
+    over a method path), source lines at both pinned commits;
+  - `REVIEW-frappe.md`: find every writer, one owner per status, Custom Fields in code rather
+    than fixtures (audit rules A08, A09, A18, B25);
+  - `FRAPPE.md`: "Two checks", our triage on every change and Frappe's audit before a big
+    release.
 
 ## 0.1.0 (2026-11-11)
 

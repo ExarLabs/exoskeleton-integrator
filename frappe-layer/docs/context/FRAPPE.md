@@ -35,6 +35,19 @@ Both print versions, the Server Scripts on the site, and which DocTypes have `Cu
 rows. The console version also prints installed apps, developer mode, `allow_tests` and
 whether Server Scripts are enabled; REST cannot see those.
 
+## Two checks: ours every time, Frappe's audit before a big release
+
+They look at different things, so neither replaces the other.
+
+- **Every change: triage and the gotchas.** Cheap, so never skipped. They look at the **site**:
+  the Server Scripts, permission rows and Custom Fields that live there and not in any
+  repository, and how the test site differs from the live one.
+- **Before a big release, or an app's first delivery to a client: Frappe's `deep-app-audit`**
+  from [`frappe/skills`](https://github.com/frappe/skills/tree/5dc2f984081f6d8e23559af03b0e7c2799245d79/skills/deep-app-audit),
+  installed from there. It looks at the **app's code**, rule by rule (security, correctness,
+  customization), with an independent verifier per finding. It starts many agents and costs
+  accordingly; the owner decides when to run it.
+
 ## Rigor defaults on Frappe
 
 The Exoskeleton asks one question for light or heavy rigor: would you have asked another human

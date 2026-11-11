@@ -26,6 +26,8 @@ copy the standard rows into `Custom DocPerm` (`setup_custom_perms`,
 A row inserted any other way (REST, fixture, patch, `frappe.get_doc(...).insert()`) does not,
 and every role without a custom row loses access to that DocType.
 
+**Find it.** The triage lists every DocType with `Custom DocPerm` rows. In code: `rg -n "Custom DocPerm" --type py` and `Custom DocPerm` in fixture files.
+
 **Do this.**
 - Prefer `add_permission` / `update_permission_property` or the Role Permission Manager.
 - If you write `Custom DocPerm` rows directly, write one row for **every** role that needs the
@@ -54,6 +56,8 @@ The full, generated list is in [`SAFE_EXEC-frappe.md`](SAFE_EXEC-frappe.md). Reg
 with `python3 .exoskeleton-integrator/scripts/safe_exec_names.py --branch version-15 --branch version-16` instead of
 editing it by hand.
 
+**Find it.** In Server Script code (the triage `--doctype` output, or exported scripts): `rg -n "frappe\.(get_roles|has_permission|parse_json|cache|get_traceback)\b|(^|[^.\w])(flt|cint|nowdate|add_days)\("`, then check the rest against `SAFE_EXEC-frappe.md`.
+
 **Do this.** Before writing or reviewing a Server Script, check every `frappe.*` and
 `frappe.utils.*` call against `SAFE_EXEC-frappe.md`. To get the current user's roles, read the
 `Has Role` child table (`frappe.get_all("Has Role", filters={"parent": frappe.session.user,
@@ -70,6 +74,8 @@ A function defined at the top of the script lands in `locals`; inside another fu
 Python looks the name up in `globals`, so the call raises `NameError` (an HTTP 500 on API
 scripts). Reading a top-level variable from inside a function fails the same way.
 
+**Find it.** A Server Script with a top-level `def` that another function calls, or a function that reads a top-level name.
+
 **Do this.** Write the script top to bottom without helper functions, or define a helper
 inside the function that uses it, or pass values in as arguments. Run the script once on a
 test site before saving it on a live one.
@@ -84,6 +90,8 @@ which removes `frappe.db.commit`, `frappe.db.rollback` and `frappe.db.add_index`
 ([v15 safe_exec.py#L111-L115](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/utils/safe_exec.py#L111-L115),
 [v16 #L114-L118](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/utils/safe_exec.py#L114-L118)).
 
+**Find it.** `frappe.db.commit`, `frappe.db.rollback` or `frappe.db.add_index` in a Server Script whose type is DocType Event.
+
 **Do this.** Let the request's transaction commit. If work must happen outside it, enqueue it.
 
 ## 5. Server Scripts are off unless the bench turns them on
@@ -93,6 +101,8 @@ from a site config
 ([v15 safe_exec.py#L83-L85](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/utils/safe_exec.py#L83-L85),
 [v16 #L86-L88](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/utils/safe_exec.py#L86-L88)).
 A script that works on one bench can be dead on another.
+
+**Find it.** `triage_console.py` prints the switch. REST cannot see it; a Server Script that never fires on one bench is the symptom.
 
 **Do this.** Check it in triage (`.exoskeleton-integrator/scripts/triage_console.py` prints it). Enabling it is a
 bench-wide security decision: `bench set-config -g server_script_enabled 1`, with the owner's yes.
@@ -104,6 +114,8 @@ bench-wide security decision: `bench set-config -g server_script_enabled 1`, wit
 ([v15 server_script_utils.py#L10-L11](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/core/doctype/server_script/server_script_utils.py#L10-L11),
 [v16 #L10-L11](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/core/doctype/server_script/server_script_utils.py#L10-L11)).
 A "Before Save" script therefore runs before the controller's `before_save`.
+
+**Find it.** `rg -n "doc\.save\(\)"` in Before Save and After Save scripts, and in `validate` or `on_update` handlers.
 
 **Do this.** Never call `doc.save()` inside a Before Save or After Save script: set fields on
 `doc` and let the running save persist them.
@@ -123,6 +135,8 @@ document, apply your fields and call `doc.save()`; for a child row they also sav
 Writing one field, even an empty one, can send emails, change other fields or fail on
 validation that has nothing to do with your field.
 
+**Find it.** `triage_rest.py --doctype "<DocType>"` lists the scripts that run when it is saved.
+
 **Do this.** Before any REST write to a live site, list the DocType's event scripts
 (`python3 .exoskeleton-integrator/scripts/triage_rest.py --doctype "<DocType>"`), read what each does, and predict the
 effect. Try the write on a test record first.
@@ -135,6 +149,8 @@ no condition, so the list shows **every** record
 ([v15 db_query.py#L1504-L1517](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/model/db_query.py#L1504-L1517),
 [v16 #L1173-L1201](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/model/db_query.py#L1173-L1201)).
 
+**Find it.** Each `permission_query_conditions` handler in `hooks.py`, and Permission Query scripts in the triage: every return path that can give `""`, `None` or `False`.
+
 **Do this.** To deny all, return a condition that is always false, such as `"1=0"`. Test the
 list view as a restricted user.
 
@@ -145,6 +161,8 @@ list view as a restricted user.
 v16 exports `IntegrationTestCase` and `UnitTestCase` from `frappe.tests`
 ([v16 tests/__init__.py#L3](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/tests/__init__.py#L3),
 classes in `frappe/tests/classes/`). The v16 classes do not exist on v15.
+
+**Find it.** `rg -n "FrappeTestCase|IntegrationTestCase|UnitTestCase" --type py`, against the bench version the triage prints.
 
 **Do this.** Check the bench version in triage before writing a test, and see
 [`TESTING-frappe.md`](TESTING-frappe.md).
@@ -176,7 +194,43 @@ so `?parent=Contact` works there too. Checked on a v16.26.3 site with an API use
 site `parent=Address` returned only rows with `parenttype` Address, but the pinned sources
 do not show one clear place that guarantees it.
 
+**Find it.** Calls to `/api/resource/<DocType>` or `get_list` whose DocType has `"istable": 1` in its JSON, without `parent`.
+
 **Do this.** Pass `parent=<Parent DocType>` and, when the child table belongs to several
 parents, also filter `parenttype` yourself
 (`filters=[["parenttype", "=", "Contact"]]`). Inside Python on the bench, `frappe.get_all`
 skips permissions and needs neither.
+
+## 11. DocType Event Server Scripts do not run during install or migrate
+
+**What happens.** The dispatcher returns early when `frappe.flags.in_install` or
+`frappe.flags.in_migrate` is set
+([v15 server_script_utils.py#L32-L36](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/core/doctype/server_script/server_script_utils.py#L32-L36),
+[v16 #L39-L43](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/core/doctype/server_script/server_script_utils.py#L39-L43)).
+Patches run inside migrate, so a patch that saves documents skips every "Before Save" or
+"After Save" Server Script on them. The same save from the desk or REST runs them. Frappe's
+audit notes this in its Server Script mechanism
+([M25](https://github.com/frappe/skills/blob/5dc2f984081f6d8e23559af03b0e7c2799245d79/skills/deep-app-audit/quality/mechanisms/M25-server-script.md),
+which names it rule A23; the rule file itself is not published at that commit).
+
+**Find it.** A patch or `after_install` / `after_migrate` hook that saves documents of a
+DocType listed by `triage_rest.py --doctype "<DocType>"` as having event scripts.
+
+**Do this.** Do in the patch what the script would have done, or move the rule into app code
+(`doc_events`), which does run in migrate. Say in the plan which scripts the patch skips.
+
+## 12. An API Server Script can take over an existing method path
+
+**What happens.** Before resolving a dotted method path, the request handler looks for an API
+Server Script with that exact name and runs it instead
+([v15 handler.py#L65-L72](https://github.com/frappe/frappe/blob/2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0/frappe/handler.py#L65-L72),
+[v16 #L65-L72](https://github.com/frappe/frappe/blob/49789a1711d4dde2be9c6888efe35651465f4b64/frappe/handler.py#L65-L72)).
+A script whose method name equals an app's whitelisted path, for example
+`crm.api.doc.get_data`, silently replaces it for every `/api/method` caller. Nothing reports
+the clash.
+
+**Find it.** The triage lists API Server Scripts; compare each `api_method` with the
+whitelisted paths of the installed apps (`rg -n "@frappe.whitelist" -A2 --type py`).
+
+**Do this.** Give API scripts a name no Python method uses (a prefix such as the site or
+client name), and check the list after every app update.
