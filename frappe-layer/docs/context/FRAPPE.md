@@ -64,6 +64,18 @@ They look at different things, so neither replaces the other.
   customization), with an independent verifier per finding. It starts many agents and costs
   accordingly; the owner decides when to run it.
 
+## Where we differ from Frappe's `frappe-app-dev`
+
+Install Frappe's [`frappe-app-dev`](https://github.com/frappe/skills/tree/5dc2f984081f6d8e23559af03b0e7c2799245d79/skills/frappe-app-dev)
+for framework knowledge; this layer does not repeat it. On client sites, three of its points
+lose to ours:
+
+- **Check the version.** It says not to run discovery commands. On a client site the version
+  decides the test classes, the APIs and the traps, so triage prints it first.
+- **Custom Fields in code, not fixtures.** Its `hooks.md` shows `fixtures = ["Custom Field"]`;
+  Frappe's own audit (A08, A09) and `REVIEW-frappe.md` say create them in code.
+- **Tests on v15.** It shows only the v16 classes; on v15 use `FrappeTestCase` (gotcha 9).
+
 ## Rigor defaults on Frappe
 
 The Exoskeleton asks one question for light or heavy rigor: would you have asked another human
