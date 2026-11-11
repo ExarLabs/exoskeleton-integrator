@@ -81,6 +81,13 @@ than an app with a test suite.
 - We have no measured speed-up to report. The Exoskeleton README says what its author can and
   cannot prove about speed; we add no number of our own.
 
+## Staying current
+
+`python3 scripts/watch_sources.py` (read-only, run weekly) checks every file the Frappe layer
+cites at a pinned commit: has its branch changed that file since? It also reports new commits,
+releases and licence changes in the repositories listed in `watch/sources.json`. A changed file
+is a prompt to re-read the trap that cites it, not proof the trap is wrong.
+
 ## Contributing
 
 Issues are welcome, most of all "I tried this on my site and here is where it broke", and new

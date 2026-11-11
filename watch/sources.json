@@ -1,0 +1,25 @@
+{
+  "_about": "What scripts/watch_sources.py watches. pins: the branch each pinned commit in the Frappe layer is compared against. repos: repositories we learn from. releases: repositories whose latest release we track.",
+  "pins": {
+    "frappe/frappe": {
+      "2e9ecdc03fa5b5b8d1ba05224a1aff7dad832bd0": "version-15",
+      "49789a1711d4dde2be9c6888efe35651465f4b64": "version-16"
+    },
+    "frappe/crm": {
+      "ead04d4b95455f1673b477cfb4b4ac017ce3d4e9": "main"
+    },
+    "frappe/skills": {
+      "5dc2f984081f6d8e23559af03b0e7c2799245d79": "main"
+    }
+  },
+  "repos": [
+    {"repo": "matemajoros/ai-dev-exoskeleton", "branch": "main", "why": "upstream of the Exoskeleton payload (upstream/); pull new versions in"},
+    {"repo": "frappe/skills", "branch": "main", "why": "Frappe's official skills and audit rules, installed next to ours"},
+    {"repo": "Impertio-Studio/Frappe_Claude_Skill_Package", "branch": "main", "why": "knowledge package; we reported sandbox errors in its issue 24"},
+    {"repo": "lubusIN/frappe-skills", "branch": "main", "why": "knowledge package with a triage skill"},
+    {"repo": "UnityAppSuite/frappe-claude", "branch": "main", "why": "Claude Code plugin with Frappe hooks and log monitors"},
+    {"repo": "robert-malai/anafpy", "branch": "main", "why": "ANAF e-Factura client, reference for a Romanian e-invoice app"},
+    {"repo": "evghenin/erpnext_moldova_efactura", "branch": "master", "why": "ERPNext localization app, reference for app structure"}
+  ],
+  "releases": ["frappe/frappe", "frappe/crm"]
+}

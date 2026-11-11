@@ -25,6 +25,10 @@ Lessons from a real Frappe v16 + Frappe CRM build (plan: `docs/tasks/20261111-fr
   - `TESTING-frappe.md`: the agent's live run with evidence per intent line before the human's
     manual test; work in the bench's own checkout, not a worktree;
   - `REVIEW-frappe.md`: a `Reviewed: <sha>` line, and commits after it get a fresh review.
+- `scripts/watch_sources.py` and `watch/sources.json`: a read-only weekly check of what this
+  package learns from. For every file the layer cites at a pinned commit, has its branch changed
+  that file since? Plus new commits, releases, licence changes and archived repositories in the
+  watched sources. Tests with a fake GitHub; a test keeps every pinned commit mapped to a branch.
 
 ## 0.1.0 (2026-11-11)
 
