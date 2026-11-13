@@ -34,7 +34,7 @@ activates.
 | [`frappe-layer/docs/context/SAFE_EXEC-frappe.md`](frappe-layer/docs/context/SAFE_EXEC-frappe.md) | What a Server Script can call on v15 and v16, **generated** from `frappe/utils/safe_exec.py`, not written by hand |
 | [`frappe-layer/docs/context/TESTING-frappe.md`](frappe-layer/docs/context/TESTING-frappe.md) | Seeing a test fail on a bench; testing permissions as a real role; refusals, not only success |
 | [`frappe-layer/docs/context/REVIEW-frappe.md`](frappe-layer/docs/context/REVIEW-frappe.md) | Where the reviewer looks on a Frappe change, most consequential first |
-| [`frappe-layer/docs/context/FRAPPE.md`](frappe-layer/docs/context/FRAPPE.md) | Index, triage, which Frappe work is heavy by default, rules for live sites |
+| [`frappe-layer/docs/context/FRAPPE.md`](frappe-layer/docs/context/FRAPPE.md) | Index, triage, the light way (what the existing modules cover without code, and when a module or a separate app is justified), which Frappe work is heavy by default, rules for live sites |
 | [`frappe-layer/docs/context/overrides/PROPOSED-implementer.md`](frappe-layer/docs/context/overrides/PROPOSED-implementer.md) | The test rule for site customizations that have no test suite: the scenario is the test, seen failing on a test site first |
 | [`scripts/triage_console.py`](scripts/triage_console.py) | Read-only triage inside a bench: versions, apps, developer mode, Server Script switch, Server Scripts, DocTypes with Custom DocPerm rows |
 | [`scripts/triage_rest.py`](scripts/triage_rest.py) | The same over REST (GET only), and `--doctype` to see what runs when a DocType is saved, before you write to it |

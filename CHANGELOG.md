@@ -4,6 +4,14 @@
 
 Lessons from a real Frappe v16 + Frappe CRM build (plan: `docs/tasks/20261111-frappe-layer-v0.2/`).
 
+- `FRAPPE.md`: **the light way, at build-context.** Before planning code, `CONTEXT.md` gets a
+  `## Light way` section: what the site's existing modules cover without code, per intent line,
+  and the owner chooses. Then the steps settings, a module in an app we own, a separate app, with
+  what moves a change up a step, and where the screens can change (desk icons and sidebars are
+  records; Frappe CRM's sidebar is fixed in code, its user dropdown takes a link). The session
+  start hook reminds of it, a test keeps the reminder. Learned from a build that went straight
+  to a separate app while the settings-only route was never written down.
+
 - `GOTCHAS-frappe.md` trap 10: a child table list needs `parent=<Parent DocType>`, over
   `/api/resource` as well as `frappe.client.get_list`; source lines at both pinned commits,
   behaviour checked on a live v16.26.3 site.

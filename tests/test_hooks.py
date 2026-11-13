@@ -102,6 +102,7 @@ def test_session_context_in_bench(tmp_path):
     assert "16.26.3" in ctx and "frappe, erpnext" in ctx and "dev.localhost" in ctx
     assert "server_script_enabled (bench-wide): True" in ctx
     assert "SECRET" not in ctx
+    assert "light way" in ctx
 
 
 def test_session_context_outside_bench(tmp_path):

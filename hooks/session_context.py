@@ -67,6 +67,8 @@ def describe(bench: Path) -> str:
                      f"allow_tests={bool(site_conf.get('allow_tests'))}")
     lines.append("Read docs/context/FRAPPE.md and GOTCHAS-frappe.md before planning; "
                  "run .exoskeleton-integrator/scripts/triage_console.py for the full triage.")
+    lines.append("Before planning code, write the light way in CONTEXT.md (FRAPPE.md, 'The light way'): "
+                 "what the existing modules cover without code; the owner chooses.")
     return "\n".join(lines)
 
 

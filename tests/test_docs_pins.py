@@ -47,6 +47,16 @@ def test_every_gotcha_says_how_to_find_it():
     assert not missing, f"traps without a 'Find it.' line: {missing}"
 
 
+def test_the_light_way_comes_before_planning():
+    """The light way is written at build-context, per intent line, and the owner chooses."""
+    index = (CONTEXT / "FRAPPE.md").read_text(encoding="utf-8")
+    section = index.split("## The light way, at build-context", 1)
+    assert len(section) == 2, "FRAPPE.md lost its light way section"
+    body = section[1].split("\n## ", 1)[0]
+    for needle in ("`## Light way`", "intent line", "owner chooses", "A separate app"):
+        assert needle in body, f"light way section lost: {needle}"
+
+
 def test_every_context_file_is_in_the_frappe_index():
     index = (CONTEXT / "FRAPPE.md").read_text(encoding="utf-8")
     missing = [
