@@ -88,6 +88,12 @@ cites at a pinned commit: has its branch changed that file since? It also report
 releases and licence changes in the repositories listed in `watch/sources.json`. A changed file
 is a prompt to re-read the trap that cites it, not proof the trap is wrong.
 
+`python3 scripts/discover_sources.py` finds candidates for that list: repositories that keep
+agent instructions (SKILL.md, AGENTS.md, CLAUDE.md) about Frappe, ranked by Frappe
+specificity, whether the repository is itself a Frappe app, and sustained recent activity.
+Stars are left out on purpose: in a field this young, early packages collected stars and then
+stopped, while small, active client apps hold the rules learned on real work.
+
 ## Contributing
 
 Issues are welcome, most of all "I tried this on my site and here is where it broke", and new

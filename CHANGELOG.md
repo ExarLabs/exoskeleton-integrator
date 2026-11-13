@@ -29,6 +29,11 @@ Lessons from a real Frappe v16 + Frappe CRM build (plan: `docs/tasks/20261111-fr
   package learns from. For every file the layer cites at a pinned commit, has its branch changed
   that file since? Plus new commits, releases, licence changes and archived repositories in the
   watched sources. Tests with a fake GitHub; a test keeps every pinned commit mapped to a branch.
+- `scripts/discover_sources.py`: finds new sources for that list. GitHub code search for agent
+  files mentioning Frappe, mirrors filtered out, ranked without stars: Frappe specificity,
+  whether the repository is a Frappe app, months active in the last six, commits and authors in
+  the last 90 days. First run (2026-11-12): about 1,500 repositories found, about 470 of them
+  Frappe-specific; the top of the list is Frappe's own apps and small, active client apps.
 
 ## 0.1.0 (2026-11-11)
 
