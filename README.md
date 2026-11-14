@@ -1,5 +1,11 @@
 # Exoskeleton Integrator
 
+<a href="https://exarlabs.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/exarlabs-logo-white.svg"><img src="assets/exarlabs-logo.svg" alt="ExarLabs" height="36"></picture></a>
+
+The Frappe layer and this package are built and maintained by [ExarLabs](https://exarlabs.com),
+a team of ERPNext and Frappe experts (ERPNext implementations, Frappe development; Frappe
+partnership in progress). The AI Dev Exoskeleton itself is Máté Majoros's work, credited below.
+
 **The [AI Dev Exoskeleton](https://github.com/matemajoros/ai-dev-exoskeleton), with a layer for
 teams that build and change Frappe and ERPNext sites for clients.** Built for Frappe.
 
@@ -108,3 +114,21 @@ affiliated with or endorsed by Frappe Technologies. "Built for Frappe" describes
 
 MIT, see [LICENSE](LICENSE). Third-party parts and their licenses are listed in
 [NOTICE.md](NOTICE.md). Maintained by [ExarLabs](https://exarlabs.com), Romania.
+
+## About ExarLabs
+
+<a href="https://exarlabs.com"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/exarlabs-logo-white.svg"><img src="assets/exarlabs-logo.svg" alt="ExarLabs" height="48"></picture></a>
+
+This project is built and maintained by [ExarLabs](https://exarlabs.com). We are a team of
+ERPNext and Frappe experts: we implement ERPNext for companies and do Frappe development.
+Our Frappe partnership is in progress. Frappe and ERPNext are named here only to describe our
+work; this project is not affiliated with or endorsed by Frappe Technologies.
+
+**More from ExarLabs**
+
+- [paros-advisor](https://github.com/ExarLabs/paros-advisor): an advisor that helps you turn a
+  notes vault into a personal operating system your AI agents work and learn in.
+- [atomic-skills](https://github.com/ExarLabs/atomic-skills): Claude Code skills for the
+  clients of Atomi, our AI automation service (in Hungarian).
+
+Contact: [exarlabs.com](https://exarlabs.com)
